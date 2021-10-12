@@ -12,12 +12,35 @@ function compare( a, b ) {
 getMovies = async (req, res) => {
     const movies = await Movie.find()
     if (movies) {
-        movies.sort(compare)
-        res.json({ movies: movies })
+        await movies.sort(compare)
+        res.status(200).json({ movies: movies })
+    }
+    else{
+        res.status(500).json("An error has occurred")
     }
 }
 
-
+addMovie = async (req, res) => {
+    const movies = await Movie.find()
+    if (movies) {
+        await movies.sort(compare)
+        res.status(200).json({ movies: movies })
+    }
+    else{
+        res.status(500).json("An error has occurred")
+    }
+}
+getMoviesByCategory = async (req, res) => {
+    console.log(req.body);
+    const movies = await Movie.find({category:req.body.category})
+    if (movies) {
+        await movies.sort(compare)
+        res.status(200).json({ movies: movies })
+    }
+    else{
+        res.status(500).json("An error has occurred")
+    }
+}
 module.exports = {
     getMovies,
     addMovie,
