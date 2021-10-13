@@ -1,6 +1,6 @@
 # topTenMovies-backend
 
-Server of Top Ten Movies.
+Server of my Top Ten Movies project.
 
 This project run port 9000 by default. (you can change it in the .env file)
 
