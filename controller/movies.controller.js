@@ -10,6 +10,7 @@ function compare( a, b ) {
   }
 
 getMovies = async (req, res) => {
+    console.log("In get movies func");
     const movies = await Movie.find()
     if (movies) {
         await movies.sort(compare)
@@ -21,14 +22,24 @@ getMovies = async (req, res) => {
 }
 
 addMovie = async (req, res) => {
-    const newMovie= new Movie(req.body.movie)
-    newMovie.save().then((movie)=>{
-        console.log("movie added");
-        res.status(200).json({movie:movie, message: "movie added"})
+    Movie.find({name:req.body.movie.name}).then((movie)=>{
+        // movie is already exist
+        if(movie){
+            console.log("movie is already exist");
+            res.status(200).json({movie:null})
+        }
+        else{
+            const newMovie= new Movie(req.body.movie)
+            newMovie.save().then((movie)=>{
+                console.log("movie added");
+                res.status(200).json({movie:movie, message: "movie added"})
+            })
+            .catch((err)=>{
+                res.status(500).json(err)
+            })
+        }
     })
-    .catch((err)=>{
-        res.status(500).json(err)
-    })
+    
 
 }
 getMoviesByCategory = async (req, res) => {
